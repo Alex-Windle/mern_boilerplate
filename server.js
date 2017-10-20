@@ -22,15 +22,12 @@ MongoClient.connect(url, (err, db) => {
 	
 	//connect routes to database
 	app.post('/customers', urlEncodedParser, (req, res) => {
-
-		console.log(req.body);
-		//add document to database
-		// db.collection('customers').insert({
-		// 	firstname: req.body.firstname, 
-		// 	lastname: req.body.lastname, 
-		// 	order: req.body.order
-		// });
-		res.send('Run post route.');
+		db.collection('customers').insert({
+			firstname: req.body.firstname, 
+			lastname: req.body.lastname, 
+			order: req.body.order
+		});
+		res.send(req.body.firstname + ' ' + req.body.lastname + ' was added to the customer database.');
 	}); 
  
 });
