@@ -20,9 +20,9 @@ MongoClient.connect(url, (err, db) => {
 	app.post('/customers', (req, res) => {
 		//add document to database
 		db.collection('customers').insert({
-			firstname: 'Greg', 
-			lastname: 'Smith', 
-			order: []
+			firstname: req.body.firstname, 
+			lastname: req.body.lastname, 
+			order: req.body.order
 		});
 		res.send('Run post route.');
 	}); 
