@@ -34,20 +34,21 @@ MongoClient.connect(url, (err, db) => {
 	app.get('/customers', (req, res) => {
 		var cursor = db.collection('customers').find({}); //returns a cursor
 		//access documents by iterating cursor object
-		let customers = []; 
+		let customers = ['filler', 'filler', 'filler']; 
+		customers.push('push another filler');
 		cursor.forEach((item) => {
-			// customers.push({
-			// 	'firstname' : item.firstname,
-			// 	'lastname' : item.lastname,
-			// 	'order' : item.order,
-			// });
-			console.log({
+			customers.push({
 				'firstname' : item.firstname,
 				'lastname' : item.lastname,
 				'order' : item.order,
-			})
+			});
+			// console.log({
+			// 	'firstname' : item.firstname,
+			// 	'lastname' : item.lastname,
+			// 	'order' : item.order,
+			// })
 		});
-		res.send('Run get route.') 
+		res.send(customers); 
 	});
 });
 
