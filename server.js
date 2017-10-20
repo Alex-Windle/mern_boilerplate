@@ -1,35 +1,48 @@
 //dependencies
 const express = require('express'); 
-
-//server instance
-const app = express(); 
+const MongoClient = require('mongodb').MongoClient;
+const url = require('./database');
 
 //port
 const port = 8000; 
 
-//listen for HTTP requests
-app.listen(port, () => {
-	console.log('Watching on port ', port); 
-}); 
+//connect server to database
+MongoClient.connect(url, (err, db) => {
+	//server instance
+	const app = express(); 
 
-//routes
-app.get('/', (req, res) => {
-	res.send('App running.');
+	//listen for HTTP requests
+	app.listen(port, () => {
+		console.log('Watching on port ', port); 
+	}); 
+	
+	//connect routes to database
+	app.post('/customers', (req, res) => {
+		//add document to database
+		db.collection('customers').insert({
+			firstname: 'Greg', 
+			lastname: 'Smith', 
+			order: []
+		});
+		res.send('Run post route.');
+	}); 
+ 
 });
 
-app.post('/customers', (req, res) => {
-res.send('Run post route.');
-}); 
+// //routes
+// app.get('/', (req, res) => {
+// 	res.send('App running.');
+// });
 
-app.get('/customers', (req, res) => {
-	res.send('Run get route.');
-}); 
+// app.get('/customers', (req, res) => {
+// 	res.send('Run get route.');
+// }); 
 
-app.put('/customers/:id', (req, res) => {
-	res.send('Run update route.');
-});
+// app.put('/customers/:id', (req, res) => {
+// 	res.send('Run update route.');
+// });
 
-app.delete('/customers', (req, res) => {
-	res.send('All customers deleted from database');
-});
+// app.delete('/customers', (req, res) => {
+// 	res.send('All customers deleted from database');
+// });
 
