@@ -18,51 +18,15 @@ app.get('/', (req, res) => {
 });
 
 app.post('/customers', (req, res) => {
-	res.send({
-		'1': {
-			firstname: 'Greg',
-			lastname: 'Smith',
-			order: []
-		}, 
-		'2': {
-			firstname: 'Abaigh',
-			lastname: 'Johnson',
-			order: []
-		}
-	}); 
+res.send('Run post route.');
 }); 
 
 app.get('/customers', (req, res) => {
-	res.send({
-		1: {
-			firstname: 'Greg',
-			lastname: 'Smith',
-			order: []
-		}, 
-		2: {
-			firstname: 'Abaigh',
-			lastname: 'Johnson',
-			order: []
-		}
-	}); 
+	res.send('Run get route.');
 }); 
 
 app.put('/customers/:id', (req, res) => {
-	const id = req.params.id; 
-	const database = {
-		'1': {
-			firstname: 'Greg',
-			lastname: 'Smith',
-			order: ['socks', 'notebook']
-		}, 
-		'2': {
-			firstname: 'Abaigh',
-			lastname: 'Johnson',
-			order: ['stamps', 'scarf']
-		}
-	}; 
-	const dataById = database[id]; 
-	res.send(dataById);
+	res.send('Run update route.');
 });
 
 app.delete('/customers', (req, res) => {
