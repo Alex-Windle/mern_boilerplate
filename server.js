@@ -14,6 +14,7 @@ MongoClient.connect(url, (err, db) => {
 
 	//middleware - body parser
 	const urlEncodedParser = bodyParser.urlencoded({ extended: false });
+	const jsonParser = bodyParser.json(); 
 
 	//listen for HTTP requests
 	app.listen(port, () => {
@@ -31,11 +32,23 @@ MongoClient.connect(url, (err, db) => {
 	}); 
 
 	app.get('/customers', (req, res) => {
-		//TypeError: Converting circular structure to JSON
-		const customers = db.collection('customers').find(); 
-		res.send(customers);
+		var cursor = db.collection('customers').find({}); //returns a cursor
+		//access documents by iterating cursor object
+		let customers = []; 
+		cursor.forEach((item) => {
+			// customers.push({
+			// 	'firstname' : item.firstname,
+			// 	'lastname' : item.lastname,
+			// 	'order' : item.order,
+			// });
+			console.log({
+				'firstname' : item.firstname,
+				'lastname' : item.lastname,
+				'order' : item.order,
+			})
+		});
+		res.send('Run get route.') 
 	});
- 
 });
 
 // //routes
