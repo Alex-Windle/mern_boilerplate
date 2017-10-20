@@ -29,13 +29,16 @@ MongoClient.connect(url, (err, db) => {
 		});
 		res.send(req.body.firstname + ' ' + req.body.lastname + ' was added to the customer database.');
 	}); 
+
+	app.get('/customers', (req, res) => {
+		//TypeError: Converting circular structure to JSON
+		const customers = db.collection('customers').find(); 
+		res.send(customers);
+	});
  
 });
 
 // //routes
-// app.get('/', (req, res) => {
-// 	res.send('App running.');
-// });
 
 // app.get('/customers', (req, res) => {
 // 	res.send('Run get route.');
