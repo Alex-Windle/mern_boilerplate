@@ -64,13 +64,11 @@ MongoClient.connect(url, (err, db) => {
 			})
 		}); 
 	});
+
+	app.delete('/customers', (req, res) => {
+		db.collection('customers').remove((err) => {
+			if (err) throw err; 
+			res.status(200).send('All customers deleted from database');
+		}); 
+	});
 });
-
-// app.get('/customers', (req, res) => {
-// 	res.send('Run get route.');
-// }); 
-
-// app.delete('/customers', (req, res) => {
-// 	res.send('All customers deleted from database');
-// });
-
