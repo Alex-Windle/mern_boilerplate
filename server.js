@@ -32,27 +32,28 @@ MongoClient.connect(url, (err, db) => {
 	}); 
 
 	app.get('/customers', (req, res) => {
-		var cursor = db.collection('customers').find({}); //returns a cursor
-		//access documents by iterating cursor object
-		let customers = ['filler', 'filler', 'filler']; 
-		customers.push('push another filler');
-		cursor.forEach((item) => {
-			customers.push({
-				'firstname' : item.firstname,
-				'lastname' : item.lastname,
-				'order' : item.order,
-			});
-			// console.log({
-			// 	'firstname' : item.firstname,
-			// 	'lastname' : item.lastname,
-			// 	'order' : item.order,
-			// })
-		});
-		res.send(customers); 
+		db.collection('customers').find({}) //returns cursor
+			.toArray(function(err, customers) { //iterate cursor
+	          if (err) {
+	            reject(err);
+	          } else {
+	            res.send({customers});
+	          }          
+	        })
+	    // let customers = []; 
+		// db.collection('customers').find({}, (err, cursor) => {
+		// 	//access documents by iterating cursor object
+		// 	cursor.forEach((item) => {
+		// 		customers.push({
+		// 			'firstname' : item.firstname,
+		// 			'lastname' : item.lastname,
+		// 			'order' : item.order,
+		// 		});
+		// 	});
+		// 	res.send(customers);
+		// }) 
 	});
 });
-
-// //routes
 
 // app.get('/customers', (req, res) => {
 // 	res.send('Run get route.');
