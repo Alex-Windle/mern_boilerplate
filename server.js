@@ -45,24 +45,17 @@ MongoClient.connect(url, (err, db) => {
 
 	app.put('/customers/:id', urlEncodedParser, (req, res) => {
 		const id = req.params.id;
-		db.collection('customers').find({ '_id' : ObjectId(id) }, function(err, item) {
-			if (err) { console.log('first err') } 
-			item.toArray((err, array) => {
-				if (err) {
-					throw err;
-				} else {
-					if (array.length > 0) {
-						res.status(200).send({
-							firstname: req.body.firstname, 
-							lastname: req.body.lastname, 
-							order: req.body.order
-						});
-					} else {
-						res.status(404).send(`Customer ${id} not found.`)
-					}
-				}
-			})
-		}); 
+		const document = { '_id' : ObjectId(id) };
+		const updatedDocument = {
+			firstname: req.body.firstname, 
+			lastname: req.body.lastname, 
+			order: req.body.order
+		}; 
+		console.log(updatedDocument);
+		db.collection('customers').update(document, updatedDocument, (err, updatedDocument) => {
+			if (err) throw err; 
+			res.status(200).send(`The records for customer ${id} updated.`);
+		});
 	});
 
 	app.delete('/customers', (req, res) => {
