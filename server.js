@@ -33,25 +33,13 @@ MongoClient.connect(url, (err, db) => {
 
 	app.get('/customers', (req, res) => {
 		db.collection('customers').find({}) //returns cursor
-			.toArray(function(err, customers) { //iterate cursor
-	          if (err) {
-	            reject(err);
-	          } else {
-	            res.send({customers});
-	          }          
-	        })
-	    // let customers = []; 
-		// db.collection('customers').find({}, (err, cursor) => {
-		// 	//access documents by iterating cursor object
-		// 	cursor.forEach((item) => {
-		// 		customers.push({
-		// 			'firstname' : item.firstname,
-		// 			'lastname' : item.lastname,
-		// 			'order' : item.order,
-		// 		});
-		// 	});
-		// 	res.send(customers);
-		// }) 
+		.toArray(function(err, customers) { //iterate cursor
+	         if (err) {
+	           reject(err);
+	         } else {
+	           res.send({customers});
+	         }          
+	    }); 
 	});
 });
 
