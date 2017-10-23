@@ -33,7 +33,7 @@ MongoClient.connect(url, (err, db) => {
 
 	app.get('/customers', (req, res) => {
 		db.collection('customers').find({}) //returns cursor
-		.toArray(function(err, customers) { //iterate cursor
+		.toArray(function (err, customers) { //iterate cursor
 	         if (err) {
 	           reject(err);
 	         } else {
@@ -41,15 +41,21 @@ MongoClient.connect(url, (err, db) => {
 	         }          
 	    }); 
 	});
+
+	app.put('/customers/:id', (req, res) => {
+		const id = Number(req.params.id); 
+		console.log(typeof id);
+		db.collection('customers').find({ '_id' : ObjectId(id) }, (err, item) => {
+			if (err) return err; 
+			console.log('item ', item);
+		});
+		res.send('Run update route.');
+	});
 });
 
 // app.get('/customers', (req, res) => {
 // 	res.send('Run get route.');
 // }); 
-
-// app.put('/customers/:id', (req, res) => {
-// 	res.send('Run update route.');
-// });
 
 // app.delete('/customers', (req, res) => {
 // 	res.send('All customers deleted from database');
