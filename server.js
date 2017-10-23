@@ -1,6 +1,7 @@
 //dependencies
 const express = require('express'); 
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 const url = require('./database');
 const bodyParser = require('body-parser');
 
@@ -22,34 +23,42 @@ MongoClient.connect(url, (err, db) => {
 	}); 
 	
 	//connect routes to database
-	app.post('/customers', urlEncodedParser, (req, res) => {
-		db.collection('customers').insert({
-			firstname: req.body.firstname, 
-			lastname: req.body.lastname, 
-			order: req.body.order
-		});
-		res.send(req.body.firstname + ' ' + req.body.lastname + ' was added to the customer database.');
-	}); 
+	// app.post('/customers', urlEncodedParser, (req, res) => {
+	// 	db.collection('customers').insert({
+	// 		firstname: req.body.firstname, 
+	// 		lastname: req.body.lastname, 
+	// 		order: req.body.order
+	// 	});
+	// 	res.send(req.body.firstname + ' ' + req.body.lastname + ' was added to the customer database.');
+	// }); 
 
-	app.get('/customers', (req, res) => {
-		db.collection('customers').find({}) //returns cursor
-		.toArray(function (err, customers) { //iterate cursor
-	         if (err) {
-	           reject(err);
-	         } else {
-	           res.send({customers});
-	         }          
-	    }); 
-	});
+	// app.get('/customers', (req, res) => {
+	// 	db.collection('customers').find({}) //returns cursor
+	// 	.toArray(function (err, customers) { //iterate cursor
+	//          if (err) {
+	//            reject(err);
+	//          } else {
+	//            res.send({customers});
+	//          }          
+	//     }); 
+	// });
 
 	app.put('/customers/:id', (req, res) => {
-		const id = Number(req.params.id); 
-		console.log(typeof id);
-		db.collection('customers').find({ '_id' : ObjectId(id) }, (err, item) => {
-			if (err) return err; 
-			console.log('item ', item);
-		});
-		res.send('Run update route.');
+		const id = req.params.id;
+		db.collection('customers').find({ '_id' : ObjectId(id) }, function(err, item) {
+			if (err) { console.log('first err') } 
+			item.toArray((err, array) => {
+				if (err) {
+					throw err;
+				} else {
+					if (array.length > 0) {
+						res.status(200).send(array);
+					} else {
+						res.status(404).send(`Customer ${id} not found.`)
+					}
+				}
+			})
+		}); 
 	});
 });
 
