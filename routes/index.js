@@ -1,8 +1,12 @@
+//dependencies
 const express = require('express'); 
 const MongoClient = require('mongodb').MongoClient;
-const app = express(); 
+const ObjectId = require('mongodb').ObjectID;
 const bodyParser = require('body-parser');
 const url = require('../database');
+
+//server instance
+const app = express(); 
 
 //middleware - body parser
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
