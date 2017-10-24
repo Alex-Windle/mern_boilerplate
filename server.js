@@ -23,6 +23,18 @@ MongoClient.connect(url, (err, db) => {
 	}); 
 	
 	// connect routes to database
+	app.get('/', (req, res) => {
+		res.send('retrieve homepage');
+	});
+
+	app.get('/login', (req, res) => {
+		res.send('retrieve login');
+	});
+
+	app.get('/logout', (req, res) => {
+		res.send('retrieve logout');
+	});
+
 	app.post('/customers', urlEncodedParser, (req, res) => {
 		db.collection('customers').insert({
 			firstname: req.body.firstname, 
@@ -45,13 +57,12 @@ MongoClient.connect(url, (err, db) => {
 
 	app.put('/customers/:id', urlEncodedParser, (req, res) => {
 		const id = req.params.id;
-		const document = { '_id' : ObjectId(id) };
+		const document = {'_id' : ObjectId(id)};
 		const updatedDocument = {
 			firstname: req.body.firstname, 
 			lastname: req.body.lastname, 
 			order: req.body.order
 		}; 
-		console.log(updatedDocument);
 		db.collection('customers').update(document, updatedDocument, (err, updatedDocument) => {
 			if (err) throw err; 
 			res.status(200).send(`The records for customer ${id} updated.`);
