@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {customers: []}; 
+  }
+
+  componentDidMount() {
+    fetch('/customers')
+      .then(res => res.json())
+      .then(obj => obj.customers)
+      .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">MERN Stack</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1>Customers</h1>
+        {this.state.customers.map(customer => {
+          return <div>{customer.firstname} {customer.lastname}'s order is {customer.order}.</div>
+        })}
       </div>
     );
   }
