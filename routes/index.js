@@ -10,6 +10,7 @@ const app = express();
 
 //middleware - body parser
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
+// app.use(bodyparser.json());
 const jsonParser = bodyParser.json(); 
 
 MongoClient.connect(url, (err, db) => {
@@ -25,13 +26,14 @@ MongoClient.connect(url, (err, db) => {
 		res.send('retrieve logout');
 	});
 
-	app.post('/customers', urlEncodedParser, (req, res) => {
-		db.collection('customers').insert({
-			firstname: req.body.firstname, 
-			lastname: req.body.lastname, 
-			order: req.body.order
+	app.post('/customers', jsonParser, (req, res) => {
+		db.collection('customers').insert(req.body, (err, customer) => {
+			if (err) {
+				reject(err)
+			} else {
+				res.send(customer);
+			}
 		});
-		res.send(req.body.firstname + ' ' + req.body.lastname + ' was added to the customer database.');
 	}); 
 
 	app.get('/customers', (req, res) => {
