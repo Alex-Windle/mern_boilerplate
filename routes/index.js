@@ -9,8 +9,6 @@ const url = require('../database');
 const app = express(); 
 
 //middleware - body parser
-const urlEncodedParser = bodyParser.urlencoded({ extended: false });
-// app.use(bodyparser.json());
 const jsonParser = bodyParser.json(); 
 
 MongoClient.connect(url, (err, db) => {
@@ -31,7 +29,7 @@ MongoClient.connect(url, (err, db) => {
 			if (err) {
 				reject(err)
 			} else {
-				res.send(customer);
+				res.send(customer); //returns writeable object
 			}
 		});
 	}); 
@@ -47,7 +45,8 @@ MongoClient.connect(url, (err, db) => {
 	    }); 
 	});
 
-	app.put('/customers/:id', urlEncodedParser, (req, res) => {
+	//next step 
+	app.put('/customers/:id', (req, res) => {
 		const id = req.params.id;
 		const document = {'_id' : ObjectId(id)};
 		const updatedDocument = {
@@ -61,6 +60,7 @@ MongoClient.connect(url, (err, db) => {
 		});
 	});
 
+	//next step 
 	app.delete('/customers', (req, res) => {
 		db.collection('customers').remove((err) => {
 			if (err) throw err; 

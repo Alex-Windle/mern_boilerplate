@@ -16,6 +16,19 @@ class App extends Component {
     this.handleLastnameChange = this.handleLastnameChange.bind(this);
     this.handleOrderChange = this.handleOrderChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteHandler = this.deleteHandler.bind(this);
+  }
+
+  deleteHandler(event) {
+    alert('click delete');
+
+    event.preventDefault(); 
+
+    fetch("/customers", {
+      method: "delete"
+    })
+      // .then((res) => res.json())
+      .then((res) => console.log(res));
   }
 
   handleFirstnameChange(event) {
@@ -85,10 +98,14 @@ class App extends Component {
               <input type="submit" value="Register" />
             </label>
           </form>
+
         <h5>Orders</h5>
         {this.state.customers.map(customer => {
           return <div key={customer.firstname}>{customer.firstname} {customer.lastname}: {customer.order}</div> 
         })}
+
+        <h6>Delete Orders</h6>
+        <button onClick={this.deleteHandler}>Delete</button>
       </div>
     );
   }
