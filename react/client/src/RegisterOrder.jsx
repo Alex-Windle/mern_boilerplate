@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Orders from './Orders'; 
 
 class RegisterOrder extends Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class RegisterOrder extends Component {
   render() {
     return (
       <div>
-        <h5>Register a Customer</h5>
+        <h5>Create an Order</h5>
           <form onSubmit={this.handleSubmit}>
             <label>
               <p>First name:</p>
@@ -64,11 +65,12 @@ class RegisterOrder extends Component {
             <label>
               <p>Order:</p>
               <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
-            </label><br />
-            <label>
+            </label><br /><br />
+            <div>
               <input type="submit" value="Register" />
-            </label>
+            </div>
           </form>
+          <Orders />
       </div>
     );
   }

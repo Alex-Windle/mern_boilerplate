@@ -7,7 +7,7 @@ class App extends Component {
     super(props);
 
     this.state = { 
-      customers: [] 
+
     }; 
 
     this.deleteHandler = this.deleteHandler.bind(this);
@@ -24,29 +24,16 @@ class App extends Component {
       .then((res) => console.log(res));
   }
 
-  componentDidMount() {
-    fetch('/customers')
-      .then(res => res.json())
-      .then(obj => obj.customers)
-      .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
-  }
-
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h5 className="App-title">Test</h5>
         </header>
-
         <RegisterOrder />
-          
-        <h5>Orders</h5>
-        {this.state.customers.map(customer => {
-          return <div key={customer.firstname}>{customer.firstname} {customer.lastname}: {customer.order}</div> 
-        })}
-
-        <h6>Delete Orders</h6>
-        <button onClick={this.deleteHandler}>Delete</button>
+        <h5>Manage Orders</h5>
+        <button onClick={this.editHandler}>Edit an Order</button>
+        <button onClick={this.deleteHandler}>Delete Orders</button>
       </div>
     );
   }
