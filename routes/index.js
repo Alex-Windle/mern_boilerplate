@@ -46,7 +46,6 @@ MongoClient.connect(url, (err, db) => {
 	    }); 
 	});
 
-	//next step 
 	app.put('/customers/:id', (req, res) => {
 		const id = req.params.id;
 		const document = {'_id' : ObjectId(id)};
@@ -60,8 +59,7 @@ MongoClient.connect(url, (err, db) => {
 			res.status(200).send(`The records for customer ${id} updated.`);
 		});
 	});
-
-	//next step 
+	
 	app.delete('/customers', (req, res) => {
 		db.collection('customers').remove((err) => {
 			if (err) throw err; 
