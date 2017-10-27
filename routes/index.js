@@ -25,11 +25,12 @@ MongoClient.connect(url, (err, db) => {
 	});
 
 	app.post('/customers', jsonParser, (req, res) => {
-		db.collection('customers').insert(req.body, (err, customer) => {
+		db.collection('customers').insert(req.body, (err, customer) => { //returns WriteResult object
 			if (err) {
-				reject(err)
+				res.status(422).send('404 Unprocessable Entity');
 			} else {
-				res.send(customer); //returns writeable object
+				customer = customer.ops[0]; 
+				res.status(200).send(customer); 
 			}
 		});
 	}); 

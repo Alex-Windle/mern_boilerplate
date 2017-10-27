@@ -61,7 +61,6 @@ class App extends Component {
       body: body
     })
       .then((customer) => customer.json())
-      .then((customer) => console.log(customer.ops[0]));
 
     //update component to show new data in UI 
     //clear form fields
