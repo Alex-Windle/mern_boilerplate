@@ -5,12 +5,12 @@ class Orders extends Component {
     super(props);
 
     this.state = { 
+
     }; 
   }
 
   render() {
     const customers = this.props.customers; 
-    console.log(customers);
 
     return (
       <div>

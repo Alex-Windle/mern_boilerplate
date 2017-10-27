@@ -8,10 +8,11 @@ class RegisterOrder extends Component {
     this.state = {
       firstname: '', 
       lastname: '', 
-      order: '',  
+      order: '',
       customers: [] 
     }; 
 
+    this.deleteHandler = this.deleteHandler.bind(this);
     this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
     this.handleLastnameChange = this.handleLastnameChange.bind(this);
     this.handleOrderChange = this.handleOrderChange.bind(this);
@@ -23,6 +24,17 @@ class RegisterOrder extends Component {
       .then(res => res.json())
       .then(obj => obj.customers)
       .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
+  }
+
+  deleteHandler(event) {
+    event.preventDefault(); 
+
+    fetch("/customers", {
+      method: "delete"
+    })
+      .then(() => console.log('All records deleted.'))
+      //kick off re-render of orders component
+      .then(() => this.setState({customers: []}))
   }
 
   handleFirstnameChange(event) {
@@ -46,6 +58,7 @@ class RegisterOrder extends Component {
       order: this.state.order 
     }); 
 
+    //save to database
     fetch("/customers", {
       method: "post",
       headers: {
@@ -54,7 +67,15 @@ class RegisterOrder extends Component {
       },
       body: body
     })
-      .then((customer) => customer.json())
+      //request database with new customer order
+      .then(fetch('/customers')
+          .then(res => res.json())
+          .then(obj => obj.customers)
+          //updated state forces re-render of Orders
+          .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
+          //clear form
+          .then(() => {this.setState({firstname: '', lastname: '', order: ''})})
+        )
   }
 
   render() {
@@ -79,6 +100,9 @@ class RegisterOrder extends Component {
             </div>
           </form>
           <Orders customers={this.state.customers} />
+          <h5>Manage Orders</h5>
+            <button onClick={this.editHandler}>Edit an Order</button>
+            <button onClick={this.deleteHandler}>Delete Orders</button>
       </div>
     );
   }
