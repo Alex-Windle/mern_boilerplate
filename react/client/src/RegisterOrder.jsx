@@ -9,12 +9,20 @@ class RegisterOrder extends Component {
       firstname: '', 
       lastname: '', 
       order: '',  
+      customers: [] 
     }; 
 
     this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
     this.handleLastnameChange = this.handleLastnameChange.bind(this);
     this.handleOrderChange = this.handleOrderChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/customers')
+      .then(res => res.json())
+      .then(obj => obj.customers)
+      .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
   }
 
   handleFirstnameChange(event) {
@@ -70,7 +78,7 @@ class RegisterOrder extends Component {
               <input type="submit" value="Register" />
             </div>
           </form>
-          <Orders />
+          <Orders customers={this.state.customers} />
       </div>
     );
   }
