@@ -3,7 +3,6 @@ import './App.css';
 import RegisterOrder from './RegisterOrder'; 
 
 class App extends Component {
-
   render() {
     return (
       <div className="App">

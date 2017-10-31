@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 
 class Orders extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { 
-
-    }; 
-  }
 
   render() {
-    const customers = this.props.customers; 
+    const customers = this.props.customers;
+    const orderDisplayMessage = this.props.orderDisplayMessage;
+    const style = {
+      fontStyle: "italic",
+      color: "red"
+    }
 
     return (
       <div>
         <h5>Orders</h5>
-         {customers.map(customer => {
-           return <div key={customer.firstname}>{customer.firstname} {customer.lastname}: {customer.order}</div> 
-         })}
+        <p style={style}>{orderDisplayMessage}</p>
+          {customers.map((customer) => {
+            return <div key={customer.firstname + customer.lastname}>
+              {customer.firstname} {customer.lastname} : {customer.order}
+            </div>
+          })} 
       </div>
     );
   }

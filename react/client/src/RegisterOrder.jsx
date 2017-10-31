@@ -4,14 +4,13 @@ import Orders from './Orders';
 class RegisterOrder extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      firstname: '', 
-      lastname: '', 
-      order: '',
-      customers: [] 
-    }; 
-
+      this.state = {
+        firstname: '', 
+        lastname: '', 
+        order: '',
+        customers: [], 
+        orderDisplayMessage: ''
+      }; 
     this.deleteHandler = this.deleteHandler.bind(this);
     this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
     this.handleLastnameChange = this.handleLastnameChange.bind(this);
@@ -24,6 +23,13 @@ class RegisterOrder extends Component {
       .then(res => res.json())
       .then(obj => obj.customers)
       .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
+      .then(() => {
+        if (this.state.customers.length === 0) {
+          this.setState({orderDisplayMessage: 'Add a new order.'})
+        } else if (this.state.customers.length > 0) {
+          this.setState({orderDisplayMessage: ''})
+        }
+      })
   }
 
   deleteHandler(event) {
@@ -32,9 +38,10 @@ class RegisterOrder extends Component {
     fetch("/customers", {
       method: "delete"
     })
-      .then(() => console.log('All records deleted.'))
-      //kick off re-render of orders component
+      //update state
+      .then(() => this.setState({firstname: '', lastname: '', order: ''}))
       .then(() => this.setState({customers: []}))
+      .then(() => this.setState({orderDisplayMessage: 'All records deleted.'}));
   }
 
   handleFirstnameChange(event) {
@@ -67,42 +74,51 @@ class RegisterOrder extends Component {
       },
       body: body
     })
-      //request database with new customer order
-      .then(fetch('/customers')
-          .then(res => res.json())
-          .then(obj => obj.customers)
-          //updated state forces re-render of Orders
-          .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
-          //clear form
-          .then(() => {this.setState({firstname: '', lastname: '', order: ''})})
-        )
+
+    //pull database records
+    .then(fetch('/customers') 
+      .then(res => res.json())
+      .then(obj => obj.customers)
+      //update state
+      .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
+      //handle display message
+      .then(() => {
+        if (this.state.customers.length === 0) {
+          this.setState({orderDisplayMessage: 'Add a new order.'})
+        } else if (this.state.customers.length > 0) {
+          this.setState({orderDisplayMessage: ''})
+        }
+      })
+      //clear form
+      .then(() => this.setState({firstname: '', lastname: '', order: ''}))
+    )
   }
 
   render() {
+    const customers = this.state.customers; 
+    const orderDisplayMessage = this.state.orderDisplayMessage;
+    const button = {fontSize: '2.3em',padding:'6px'};
+    
     return (
       <div>
-        <h5>Create an Order</h5>
+        <br /><br />
+        <button onClick={this.deleteHandler}>Delete All Orders</button>
+        <h5>New Order</h5>
           <form onSubmit={this.handleSubmit}>
             <label>
-              <p>First name:</p>
-              <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
-            </label><br />
+              First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
+            </label><br /><br />
             <label>
-              <p>Last name:</p>
-              <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
-            </label><br />
+              Last name: <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
+            </label><br /><br />
             <label>
-              <p>Order:</p>
-              <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
+              Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
             </label><br /><br />
             <div>
-              <input type="submit" value="Register" />
+              <input type="submit" value="Register" style={button} />
             </div>
           </form>
-          <Orders customers={this.state.customers} />
-          <h5>Manage Orders</h5>
-            <button onClick={this.editHandler}>Edit an Order</button>
-            <button onClick={this.deleteHandler}>Delete Orders</button>
+        <Orders orderDisplayMessage={orderDisplayMessage} customers={customers} />
       </div>
     );
   }
