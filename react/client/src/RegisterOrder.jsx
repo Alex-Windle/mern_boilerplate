@@ -101,23 +101,24 @@ class RegisterOrder extends Component {
     
     return (
       <div>
-        <br /><br />
-        <button onClick={this.deleteHandler}>Delete All Orders</button>
         <h5>New Order</h5>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
-            </label><br /><br />
-            <label>
-              Last name: <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
-            </label><br /><br />
-            <label>
-              Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
-            </label><br /><br />
-            <div>
-              <input type="submit" value="Register" style={button} />
-            </div>
-          </form>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
+          </label><br /><br />
+          <label>
+            Last name: <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
+          </label><br /><br />
+          <label>
+            Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
+          </label><br /><br />
+          <div>
+            <input type="submit" value="Register" style={button} />
+          </div>
+        </form><br />
+        <div>
+          <button onClick={this.deleteHandler}>Delete All Orders</button>
+        </div>
         <Orders orderDisplayMessage={orderDisplayMessage} customers={customers} />
       </div>
     );
