@@ -12,7 +12,7 @@ class Orders extends Component {
         <p>{orderDisplayMessage}</p>
           {customers.map((customer) => {
             return <div key={customer.firstname + customer.lastname}>
-              {customer.firstname} {customer.lastname} : {customer.order}
+              {customer.firstname} {customer.lastname} {customer.order}
             </div>
           })} 
       </div>

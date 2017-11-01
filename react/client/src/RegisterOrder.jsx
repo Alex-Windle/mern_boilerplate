@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Orders from './Orders'; 
-import * from 'react-bootstrap'; 
+// import { Button } from 'react-bootstrap'; 
 
 class RegisterOrder extends Component {
   constructor(props) {
@@ -102,7 +102,9 @@ class RegisterOrder extends Component {
     
     return (
       <div>
+
         <h5>New Order</h5>
+        
         <form onSubmit={this.handleSubmit}>
           <label>
             First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
@@ -114,13 +116,16 @@ class RegisterOrder extends Component {
             Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
           </label>
           <div>
-            <input type="submit" value="Register" style={button} />
+            <input type="submit" value="Register" />
           </div>
         </form>
-        <div>
-          <button onClick={this.deleteHandler}>Delete All Orders</button>
-        </div>
+        
+        
+        <button onClick={this.deleteHandler}>Delete All Orders</button>
+        
+        
         <Orders orderDisplayMessage={orderDisplayMessage} customers={customers} />
+
       </div>
     );
   }
