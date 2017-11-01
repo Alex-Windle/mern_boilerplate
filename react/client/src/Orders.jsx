@@ -4,11 +4,11 @@ class Orders extends Component {
   render() {
     const customers = this.props.customers;
     const orderDisplayMessage = this.props.orderDisplayMessage;
-
+    const date = this.props.date;
     return (
       <div className="container">
         <h3 className="text-center">Orders</h3>
-        <p>{orderDisplayMessage}</p>
+        <p className="text-center">{orderDisplayMessage}{date}</p>
           <table className="table">
             <thead>
               <tr>

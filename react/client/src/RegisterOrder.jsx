@@ -9,7 +9,8 @@ class RegisterOrder extends Component {
         lastname: '', 
         order: '',
         customers: [], 
-        orderDisplayMessage: ''
+        orderDisplayMessage: '',
+        date: ''
       }; 
     this.deleteHandler = this.deleteHandler.bind(this);
     this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
@@ -34,13 +35,25 @@ class RegisterOrder extends Component {
   deleteHandler(event) {
     event.preventDefault(); 
 
+    let date = function () {
+      const currentDate = new Date(); 
+      const month = currentDate.getMonth();
+      const date = currentDate.getDate(); 
+      const year = currentDate.getFullYear();
+      return month + "/" + date + "/" + year;
+    }(); 
+
+    if (date) { 
+      this.setState({date: date});
+    };
+
     fetch("/customers", {
       method: "delete"
     })
       //update state
       .then(() => this.setState({firstname: '', lastname: '', order: ''}))
       .then(() => this.setState({customers: []}))
-      .then(() => this.setState({orderDisplayMessage: 'All records deleted.'}));
+      .then(() => this.setState({orderDisplayMessage: 'All records deleted on '})) 
   }
 
   handleFirstnameChange(event) {
@@ -80,13 +93,10 @@ class RegisterOrder extends Component {
       .then(obj => obj.customers)
       //update state
       .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
-      //handle display message
+      //clear display message and date
       .then(() => {
-        if (this.state.customers.length === 0) {
-          this.setState({orderDisplayMessage: 'Add a new order.'})
-        } else if (this.state.customers.length > 0) {
-          this.setState({orderDisplayMessage: ''})
-        }
+          this.setState({orderDisplayMessage: ''});
+          this.setState({date: ''})
       })
       //reset form
       .then(() => this.setState({firstname: '', lastname: '', order: ''}))
@@ -100,6 +110,7 @@ class RegisterOrder extends Component {
   render() {
     const customers = this.state.customers; 
     const orderDisplayMessage = this.state.orderDisplayMessage;
+    const date = this.state.date;
     return (
       <div>
         <h3 className="text-center">Order Form</h3>
@@ -132,15 +143,17 @@ class RegisterOrder extends Component {
                      />
             </label>
           </div>
-          <div className="btn-toolbar mb-3" role="toolbar">
-            <div className="btn-group mr-2" role="group">
+          <div className="btn-toolbar justify-content-between" role="toolbar">
+            <div className="btn-group" role="group">
               <input type="submit" value="Register" className="btn btn-primary" />
               <button onClick={this.resetFormHandler} type="button" className="btn">Reset Form</button>
-              <button onClick={this.deleteHandler} type="button" className="btn btn-danger">Delete All Orders</button>
+            </div>
+            <div className="btn-group" role="group">
+              <button type="button" className="btn btn-danger" onClick={this.deleteHandler}>Delete All Orders</button>
             </div>
           </div>
         </form>    
-        <Orders orderDisplayMessage={orderDisplayMessage} customers={customers} />
+        <Orders orderDisplayMessage={orderDisplayMessage} date={date} customers={customers} />
       </div>
     );
   }
