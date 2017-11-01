@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
 
 class Orders extends Component {
   render() {
@@ -7,29 +6,37 @@ class Orders extends Component {
     const orderDisplayMessage = this.props.orderDisplayMessage;
 
     return (
-      <div>
-        <h5>Orders</h5>
+      <div className="container">
+        <h3 className="text-center">Orders</h3>
         <p>{orderDisplayMessage}</p>
-          <div class="container">
-            <div class="row">
-              <div class="col-sm">
-                1 of 3 columns
-              </div>
-              <div class="col-sm">
-                2 of 3 columns
-              </div>
-              <div class="col-sm">
-                3 of 3 columns
-              </div>
-            </div>
-          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th className="col-sm-4">
+                  Customer
+                </th>
+                <th className="col-sm-4">
+                  Order
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            {customers.map((customer) => {
+                return <tr key={customer.firstname + customer.lastname}>
+                  <td className="col-sm-4">
+                    {customer.firstname} {customer.lastname} 
+                  </td>
+                  <td className="col-sm-4">
+                    {customer.order}
+                  </td>
+                </tr>      
+              })
+            } 
+            </tbody>
+          </table>
       </div>
     );
   }
 }
 
 export default Orders;
-
-// {customers.map((customer) => {
-//             return key={customer.firstname + customer.lastname}
-//             {customer.firstname} {customer.lastname} {customer.order}       })} 

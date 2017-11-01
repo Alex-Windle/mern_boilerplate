@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Orders from './Orders'; 
-// import { Button } from 'react-bootstrap'; 
 
 class RegisterOrder extends Component {
   constructor(props) {
@@ -17,6 +16,7 @@ class RegisterOrder extends Component {
     this.handleLastnameChange = this.handleLastnameChange.bind(this);
     this.handleOrderChange = this.handleOrderChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.resetFormHandler = this.resetFormHandler.bind(this);
   }
 
   componentDidMount() {
@@ -25,9 +25,7 @@ class RegisterOrder extends Component {
       .then(obj => obj.customers)
       .then(arrayOfCustomers => this.setState({customers: arrayOfCustomers})) 
       .then(() => {
-        if (this.state.customers.length === 0) {
-          this.setState({orderDisplayMessage: 'Add a new order.'})
-        } else if (this.state.customers.length > 0) {
+        if (this.state.customers.length > 0) {
           this.setState({orderDisplayMessage: ''})
         }
       })
@@ -90,42 +88,59 @@ class RegisterOrder extends Component {
           this.setState({orderDisplayMessage: ''})
         }
       })
-      //clear form
+      //reset form
       .then(() => this.setState({firstname: '', lastname: '', order: ''}))
     )
+  }
+
+  resetFormHandler () {
+    this.setState({firstname: '', lastname: '', order: ''}); 
   }
 
   render() {
     const customers = this.state.customers; 
     const orderDisplayMessage = this.state.orderDisplayMessage;
-    const button = {fontSize: '2.3em',padding:'6px'};
-    
     return (
       <div>
-
-        <h5>New Order</h5>
-        
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
-          </label>
-          <label>
-            Last name: <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
-          </label>
-          <label>
-            Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
-          </label>
-          <div>
-            <input type="submit" value="Register" />
+        <h3 className="text-center">Order Form</h3>
+        <form onSubmit={this.handleSubmit} className="container">
+          <div className="row">
+            <label className="col-sm-6">
+              First name: 
+              <input type="text" 
+                     value={this.state.firstname} 
+                     onChange={this.handleFirstnameChange} 
+                     className="form-control form-control-lg"
+                     />
+            </label>
+            <label className="col-sm-6">
+              Last name: 
+              <input type="text" 
+                     value={this.state.lastname} 
+                     onChange={this.handleLastnameChange} 
+                     className="form-control form-control-lg"
+                     />
+            </label>
           </div>
-        </form>
-        
-        
-        <button onClick={this.deleteHandler}>Delete All Orders</button>
-        
-        
+          <div className="row">
+            <label className="col-sm-12">
+              Order: 
+              <input type="text" 
+                     value={this.state.order} 
+                     onChange={this.handleOrderChange} 
+                     className="form-control form-control-lg"
+                     />
+            </label>
+          </div>
+          <div className="btn-toolbar mb-3" role="toolbar">
+            <div className="btn-group mr-2" role="group">
+              <input type="submit" value="Register" className="btn btn-primary" />
+              <button onClick={this.resetFormHandler} type="button" className="btn">Reset Form</button>
+              <button onClick={this.deleteHandler} type="button" className="btn btn-danger">Delete All Orders</button>
+            </div>
+          </div>
+        </form>    
         <Orders orderDisplayMessage={orderDisplayMessage} customers={customers} />
-
       </div>
     );
   }

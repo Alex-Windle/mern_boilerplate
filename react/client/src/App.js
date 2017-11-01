@@ -5,9 +5,9 @@ import RegisterOrder from './RegisterOrder';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h5 className="App-title">Test</h5>
+      <div>
+        <header>
+          <h1 className="text-center">Testing</h1>
         </header>
         <RegisterOrder />
       </div>
