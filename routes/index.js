@@ -12,18 +12,6 @@ const app = express();
 const jsonParser = bodyParser.json(); 
 
 MongoClient.connect(url, (err, db) => {
-	app.get('/', (req, res) => {
-		res.send('retrieve homepage');
-	});
-
-	app.get('/login', (req, res) => {
-		res.send('retrieve login');
-	});
-
-	app.get('/logout', (req, res) => {
-		res.send('retrieve logout');
-	});
-
 	app.post('/customers', jsonParser, (req, res) => {
 		db.collection('customers').insert(req.body, (err, customer) => { //returns WriteResult object
 			if (err) {

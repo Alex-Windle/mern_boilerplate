@@ -41,7 +41,8 @@ class RegisterOrder extends Component {
       const date = currentDate.getDate(); 
       const year = currentDate.getFullYear();
       const hour = currentDate.getHours(); 
-      const min = currentDate.getMinutes();
+      let min = currentDate.getMinutes();
+      if (min.toString().length === 1) { min = "0" + min }
       return month + "/" + date + "/" + year + " at " + hour + ":" + min + ".";
     }(); 
 
