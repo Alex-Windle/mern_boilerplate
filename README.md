@@ -36,3 +36,5 @@ Returns 200 OK on Success and 422 Unprocessable Entity in case of failure.
 ### DELETE /customers
 
 *This route is for deleting all orders.*
+
+Returns 200 OK on Success and 422 Unprocessable Entity in case of failure.
