@@ -50,8 +50,11 @@ MongoClient.connect(url, (err, db) => {
 	
 	app.delete('/customers', (req, res) => {
 		db.collection('customers').remove((err) => {
-			if (err) throw err; 
-			res.status(200).send('All customers deleted from database');
+			if (err) {
+				res.status(422).send('404 Unprocessable Entity');
+			} else { 
+				res.status(200).send('All customers deleted from database')
+			}
 		}); 
 	});
 }); 
