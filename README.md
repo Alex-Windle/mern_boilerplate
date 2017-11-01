@@ -33,3 +33,6 @@ Returns 200 OK on Success and 422 Unprocessable Entity in case of failure.
   _id: 59f22d23ce77b013ce254e0c
 }
 ```
+### DELETE /customers
+
+*This route is for deleting all orders.*
