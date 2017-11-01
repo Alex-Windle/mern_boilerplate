@@ -40,7 +40,9 @@ class RegisterOrder extends Component {
       const month = currentDate.getMonth();
       const date = currentDate.getDate(); 
       const year = currentDate.getFullYear();
-      return month + "/" + date + "/" + year;
+      const hour = currentDate.getHours(); 
+      const min = currentDate.getMinutes();
+      return month + "/" + date + "/" + year + " at " + hour + ":" + min + ".";
     }(); 
 
     if (date) { 
@@ -53,7 +55,7 @@ class RegisterOrder extends Component {
       //update state
       .then(() => this.setState({firstname: '', lastname: '', order: ''}))
       .then(() => this.setState({customers: []}))
-      .then(() => this.setState({orderDisplayMessage: 'All records deleted on '})) 
+      .then(() => this.setState({orderDisplayMessage: 'All records deleted '})) 
   }
 
   handleFirstnameChange(event) {

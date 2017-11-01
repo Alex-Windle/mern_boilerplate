@@ -8,7 +8,7 @@ class Orders extends Component {
     return (
       <div className="container">
         <h3 className="text-center">Orders</h3>
-        <p className="text-center">{orderDisplayMessage}{date}</p>
+        <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
           <table className="table">
             <thead>
               <tr>
