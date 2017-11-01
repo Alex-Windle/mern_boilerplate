@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Orders from './Orders'; 
+import * from 'react-bootstrap'; 
 
 class RegisterOrder extends Component {
   constructor(props) {
