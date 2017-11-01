@@ -105,17 +105,17 @@ class RegisterOrder extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             First name: <input type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} />
-          </label><br /><br />
+          </label>
           <label>
             Last name: <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange} />
-          </label><br /><br />
+          </label>
           <label>
             Order: <input type="text" value={this.state.order} onChange={this.handleOrderChange} />
-          </label><br /><br />
+          </label>
           <div>
             <input type="submit" value="Register" style={button} />
           </div>
-        </form><br />
+        </form>
         <div>
           <button onClick={this.deleteHandler}>Delete All Orders</button>
         </div>
