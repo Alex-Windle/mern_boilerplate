@@ -15,7 +15,7 @@ MongoClient.connect(url, (err, db) => {
 	app.post('/customers', jsonParser, (req, res) => {
 		db.collection('customers').insert(req.body, (err, customer) => { //returns WriteResult object
 			if (err) {
-				res.status(422).send('404 Unprocessable Entity');
+				res.status(422).send('422 Unprocessable Entity');
 			} else {
 				customer = customer.ops[0]; 
 				res.status(200).send(customer); 
@@ -51,7 +51,7 @@ MongoClient.connect(url, (err, db) => {
 	app.delete('/customers', (req, res) => {
 		db.collection('customers').remove((err) => {
 			if (err) {
-				res.status(422).send('404 Unprocessable Entity');
+				res.status(422).send('422 Unprocessable Entity');
 			} else { 
 				res.status(200).send('All customers deleted from database')
 			}
