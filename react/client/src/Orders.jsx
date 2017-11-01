@@ -18,6 +18,12 @@ class Orders extends Component {
                 <th className="col-sm-4">
                   Order
                 </th>
+                <th className="col-sm-2">
+                  Edit
+                </th>
+                <th className="col-sm-2">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -28,6 +34,12 @@ class Orders extends Component {
                   </td>
                   <td className="col-sm-4">
                     {customer.order}
+                  </td> 
+                  <td className="col-sm-2">
+                    button
+                  </td>
+                  <td className="col-sm-2">
+                    button
                   </td>
                 </tr>      
               })
