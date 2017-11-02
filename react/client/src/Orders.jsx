@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 class Orders extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { editStatus: false };
     this.editHandler = this.editHandler.bind(this);
   }
 
   editHandler(id) {
+    this.setState({ editStatus: true }); 
     console.log('CLICK: ', id);
     //kick off data fetch
     fetch('/customers')
@@ -33,52 +34,103 @@ class Orders extends Component {
     const customers = this.props.customers;
     const orderDisplayMessage = this.props.orderDisplayMessage;
     const date = this.props.date;
+    const editStatus = this.state.editStatus;
 
-    return (
-      <div className="container">
-        <h3 className="text-center">Orders</h3>
-        <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="col-sm-4">
-                  Customer
-                </th>
-                <th className="col-sm-4">
-                  Order
-                </th>
-                <th className="col-sm-2">
-                  Edit
-                </th>
-                <th className="col-sm-2">
-                  Delete
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-            {customers.map((customer) => {
-                const id = customer._id; 
-                // console.log(id);
-                return <tr key={customer._id}>
-                  <td className="col-sm-4">
-                    {customer.firstname} {customer.lastname}
-                  </td>
-                  <td className="col-sm-4">
-                    {customer.order}
-                  </td> 
-                  <td className="col-sm-2">
-                    <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
-                  </td>
-                  <td className="col-sm-2">
-                    button
-                  </td>
-                </tr>      
-              })
-            } 
-            </tbody>
-          </table>
-      </div>
-    );
+    if (!editStatus) {
+      return (
+        <div className="container">
+          <h3 className="text-center">Orders</h3>
+          <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
+          <p>NO EDIT</p>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th className="col-sm-4">
+                    Customer
+                  </th>
+                  <th className="col-sm-4">
+                    Order
+                  </th>
+                  <th className="col-sm-2">
+                    Edit
+                  </th>
+                  <th className="col-sm-2">
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {customers.map((customer) => {
+                  const id = customer._id; 
+                  // console.log(id);
+                  return <tr key={customer._id}>
+                    <td className="col-sm-4">
+                      {customer.firstname} {customer.lastname}
+                    </td>
+                    <td className="col-sm-4">
+                      {customer.order}
+                    </td> 
+                    <td className="col-sm-2">
+                      <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
+                    </td>
+                    <td className="col-sm-2">
+                      button
+                    </td>
+                  </tr>      
+                })
+              } 
+              </tbody>
+            </table>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container">
+          <h3 className="text-center">Orders</h3>
+          <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
+          <p>EDIT</p>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th className="col-sm-4">
+                    Customer
+                  </th>
+                  <th className="col-sm-4">
+                    Order
+                  </th>
+                  <th className="col-sm-2">
+                    Edit
+                  </th>
+                  <th className="col-sm-2">
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {customers.map((customer) => {
+                  const id = customer._id; 
+                  // console.log(id);
+                  return <tr key={customer._id}>
+                    <td className="col-sm-4">
+                      {customer.firstname} {customer.lastname}
+                    </td>
+                    <td className="col-sm-4">
+                      {customer.order}
+                    </td> 
+                    <td className="col-sm-2">
+                      <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
+                    </td>
+                    <td className="col-sm-2">
+                      button
+                    </td>
+                  </tr>      
+                })
+              } 
+              </tbody>
+            </table>
+        </div>
+      );
+    } 
   }
 }
 
