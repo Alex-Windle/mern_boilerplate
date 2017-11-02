@@ -13,9 +13,7 @@ class RegisterOrder extends Component {
         date: ''
       }; 
     this.deleteHandler = this.deleteHandler.bind(this);
-    this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
-    this.handleLastnameChange = this.handleLastnameChange.bind(this);
-    this.handleOrderChange = this.handleOrderChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.resetFormHandler = this.resetFormHandler.bind(this);
   }
@@ -59,16 +57,9 @@ class RegisterOrder extends Component {
       .then(() => this.setState({orderDisplayMessage: 'All records deleted '})) 
   }
 
-  handleFirstnameChange(event) {
-    this.setState({firstname: event.target.value}); 
-  }
-
-  handleLastnameChange(event) {
-    this.setState({lastname: event.target.value}); 
-  }
-
-  handleOrderChange(event) {
-    this.setState({order: event.target.value}); 
+  handleChange(event) {
+    const name = event.target.name;
+    this.setState({[name]: event.target.value});
   }
 
   handleSubmit(event) {
@@ -122,16 +113,18 @@ class RegisterOrder extends Component {
             <label className="col-sm-6">
               First name: 
               <input type="text" 
+                     name="firstname"
                      value={this.state.firstname} 
-                     onChange={this.handleFirstnameChange} 
+                     onChange={this.handleChange} 
                      className="form-control form-control-lg"
                      />
             </label>
             <label className="col-sm-6">
               Last name: 
               <input type="text" 
+                     name="lastname"
                      value={this.state.lastname} 
-                     onChange={this.handleLastnameChange} 
+                     onChange={this.handleChange} 
                      className="form-control form-control-lg"
                      />
             </label>
@@ -140,8 +133,9 @@ class RegisterOrder extends Component {
             <label className="col-sm-12">
               Order: 
               <input type="text" 
+                     name="order"
                      value={this.state.order} 
-                     onChange={this.handleOrderChange} 
+                     onChange={this.handleChange} 
                      className="form-control form-control-lg"
                      />
             </label>

@@ -44,7 +44,7 @@ class Orders extends Component {
             <tbody>
             {customers.map((customer) => {
                 const id = customer._id; 
-                console.log(id);
+                // console.log(id);
                 return <tr key={customer._id}>
                   <td className="col-sm-4">
                     {customer.firstname} {customer.lastname}
