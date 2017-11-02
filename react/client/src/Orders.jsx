@@ -10,6 +10,20 @@ class Orders extends Component {
   editHandler(id) {
     console.log('CLICK: ', id);
     //kick off data fetch
+    fetch('/customers')
+      .then(res => res.json())
+      .then(obj => obj.customers)
+      
+      //get customer by id
+      .then((array) => {
+        for (var i=0; i<array.length; i++) {
+          if (array[i]._id === id) {
+            return array[i];
+          }
+        }
+      })
+      .then((item) => {console.log(item)});
+    
     //populate form. user edits info. 
     //resubmit information
     //kick off data fetch to display new customer order to UI 
