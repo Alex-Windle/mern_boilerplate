@@ -9,6 +9,10 @@ class Orders extends Component {
 
   editHandler(id) {
     console.log('CLICK: ', id);
+    //kick off data fetch
+    //populate form. user edits info. 
+    //resubmit information
+    //kick off data fetch to display new customer order to UI 
   }
 
   render() {
