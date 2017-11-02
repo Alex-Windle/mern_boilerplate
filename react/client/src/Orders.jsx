@@ -3,11 +3,17 @@ import React, { Component } from 'react';
 class Orders extends Component {
   constructor(props) {
     super(props);
-    this.state = { editStatus: false };
-    this.editHandler = this.editHandler.bind(this);
+    this.state = { 
+      editStatus: false,
+      editFirstName: '', 
+      editLastName: '', 
+      editOrder: ''
+    };
+    this.editFormHandler = this.editFormHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  editHandler(id) {
+  editFormHandler(id) {
     this.setState({ editStatus: true }); 
     console.log('CLICK: ', id);
     //kick off data fetch
@@ -16,18 +22,36 @@ class Orders extends Component {
       .then(obj => obj.customers)
       
       //get customer by id
-      .then((array) => {
-        for (var i=0; i<array.length; i++) {
-          if (array[i]._id === id) {
-            return array[i];
+      .then((customers) => {
+        for (var i=0; i<customers.length; i++) {
+          if (customers[i]._id === id) {
+            return customers[i];
           }
         }
       })
-      .then((item) => {console.log(item)});
-    
-    //populate form. user edits info. 
-    //resubmit information
-    //kick off data fetch to display new customer order to UI 
+      .then((customer) => {
+        this.setState({editFirstName: customer.firstname});
+        this.setState({editLastName: customer.lastname});
+        this.setState({editOrder: customer.order});
+      })
+      .then(() => { console.log('this.state= ', this.state)});
+
+      //populate form. user edits info. 
+      //resubmit information
+      //kick off data fetch to display new customer order to UI 
+  }
+
+  handleChange(event) {
+    console.log(event.target.value);
+    console.log(event.target.name);
+    // const name = event.target.name;
+    // console.log(name);
+    this.setState({[event.target.name]: event.target.value});
+    // console.log(this.state);
+  }
+
+  submitEdit() {
+    alert("submit edit")
   }
 
   render() {
@@ -35,13 +59,17 @@ class Orders extends Component {
     const orderDisplayMessage = this.props.orderDisplayMessage;
     const date = this.props.date;
     const editStatus = this.state.editStatus;
+    const editFirstName = this.state.editFirstName;
+    const editLastName = this.state.editLastName;
+    const editOrder = this.state.editOrder;
 
     if (!editStatus) {
+      // console.log(customers);
       return (
         <div className="container">
           <h3 className="text-center">Orders</h3>
           <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
-          <p>NO EDIT</p>
+          <p className="text-center">NO EDIT</p>
             <table className="table">
               <thead>
                 <tr>
@@ -71,7 +99,7 @@ class Orders extends Component {
                       {customer.order}
                     </td> 
                     <td className="col-sm-2">
-                      <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
+                      <button onClick={() => {this.editFormHandler(id)}} className="btn btn-info">Edit</button>
                     </td>
                     <td className="col-sm-2">
                       button
@@ -84,11 +112,32 @@ class Orders extends Component {
         </div>
       );
     } else {
+      // console.log(customers);
       return (
         <div className="container">
           <h3 className="text-center">Orders</h3>
           <p className="text-center"><small>{orderDisplayMessage}{date}</small></p>
-          <p>EDIT</p>
+          <div>
+            OPEN MODAL
+            <form onSubmit={this.submitEdit}>
+              <input type="text"
+                     name="editFirstName"  
+                     value={editFirstName}
+                     onChange={this.handleChange}
+              />
+              <input type="text"
+                     name="editLastName" 
+                     value={this.state.editLastName}
+                     onChange={this.handleChange}
+              />
+              <input type="text"
+                     name="editOrder" 
+                     value={this.state.editOrder}
+                     onChange={this.handleChange}
+              />
+              <input type="submit" value="Submit" className="btn btn-primary" />
+            </form>
+          </div>
             <table className="table">
               <thead>
                 <tr>
@@ -109,7 +158,6 @@ class Orders extends Component {
               <tbody>
               {customers.map((customer) => {
                   const id = customer._id; 
-                  // console.log(id);
                   return <tr key={customer._id}>
                     <td className="col-sm-4">
                       {customer.firstname} {customer.lastname}
@@ -118,12 +166,12 @@ class Orders extends Component {
                       {customer.order}
                     </td> 
                     <td className="col-sm-2">
-                      <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
+                      <button onClick={() => {this.editFormHandler(id)}} className="btn btn-info">Edit</button>
                     </td>
                     <td className="col-sm-2">
                       button
                     </td>
-                  </tr>      
+                  </tr>  
                 })
               } 
               </tbody>
