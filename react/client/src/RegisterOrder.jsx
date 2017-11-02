@@ -70,7 +70,7 @@ class RegisterOrder extends Component {
       lastname: this.state.lastname,
       order: this.state.order 
     }); 
-
+    console.log('register body: ', body);
     //save to database
     fetch("/customers", {
       method: "post",

@@ -43,8 +43,11 @@ MongoClient.connect(url, (err, db) => {
 			order: req.body.order
 		}; 
 		db.collection('customers').update(document, updatedDocument, (err, updatedDocument) => {
-			if (err) throw err; 
-			res.status(200).send(`The records for customer ${id} updated.`);
+			if (err) {
+				res.status(404).send(`Bad request.`);
+			} else {
+				res.status(200).send(`The records for customer ${id} updated.`);
+			}
 		});
 	});
 	

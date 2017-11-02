@@ -7,10 +7,12 @@ class Orders extends Component {
       editStatus: false,
       editFirstName: '', 
       editLastName: '', 
-      editOrder: ''
+      editOrder: '', 
+      customerId: ''
     };
     this.editFormHandler = this.editFormHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.submitEdit = this.submitEdit.bind(this);
   }
 
   editFormHandler(id) {
@@ -33,8 +35,9 @@ class Orders extends Component {
         this.setState({editFirstName: customer.firstname});
         this.setState({editLastName: customer.lastname});
         this.setState({editOrder: customer.order});
+        this.setState({customerId: customer._id})
       })
-      .then(() => { console.log('this.state= ', this.state)});
+      .then(() => {console.log('this.state= ', this.state)});
 
       //populate form. user edits info. 
       //resubmit information
@@ -50,8 +53,37 @@ class Orders extends Component {
     // console.log(this.state);
   }
 
-  submitEdit() {
-    alert("submit edit")
+  submitEdit(e) {
+    e.preventDefault();
+    const id = this.state.customerId; 
+
+    //create request body 
+    const body = JSON.stringify({
+      firstname: this.state.editFirstName, 
+      lastname: this.state.editLastName, 
+      order: this.state.editOrder
+    });
+
+    console.log('edit request body: ', body);
+ 
+    //put request
+    fetch(`/customers/${id}`, {
+      method: "put", 
+      headers: {
+        'Accept': 'application/json', 
+        'Content-Type': 'application/json'
+      }, 
+      body: body
+    })
+    .then((stuff) => {console.log('Complete Edit Request')})
+    .then((res) => console.log(res));
+    // .then((res) => {console.log('response from put request: ', res)});
+
+    //pull database records
+    // fetch('/customers') 
+    //   .then(res => res.json())
+    //   .then(obj => obj.customers)
+    //   .then((customers) => {console.log(customers)})
   }
 
   render() {
