@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 
 class Orders extends Component {
+  constructor(props) {
+    super(props);
+
+    this.editHandler = this.editHandler.bind(this);
+  }
+
+  editHandler(id) {
+    console.log('CLICK: ', id);
+  }
+
   render() {
     const customers = this.props.customers;
     const orderDisplayMessage = this.props.orderDisplayMessage;
     const date = this.props.date;
+
     return (
       <div className="container">
         <h3 className="text-center">Orders</h3>
@@ -28,15 +39,17 @@ class Orders extends Component {
             </thead>
             <tbody>
             {customers.map((customer) => {
-                return <tr key={customer.firstname + customer.lastname}>
+                const id = customer._id; 
+                console.log(id);
+                return <tr key={customer._id}>
                   <td className="col-sm-4">
-                    {customer.firstname} {customer.lastname} 
+                    {customer.firstname} {customer.lastname}
                   </td>
                   <td className="col-sm-4">
                     {customer.order}
                   </td> 
                   <td className="col-sm-2">
-                    button
+                    <button onClick={() => {this.editHandler(id)}} className="btn btn-info">Edit</button>
                   </td>
                   <td className="col-sm-2">
                     button
